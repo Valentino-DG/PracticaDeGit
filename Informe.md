@@ -21,7 +21,7 @@ Vemos como el promedio de tiempo de ejecucion es 0,4682. Este es nuestro punto d
 
 ### Optimizacion 1:
 La primer optimizacion se llevó a cabo a la funcion "alloc_matrix". Lo que se hizo basicamente fue que en vez de alocar memoria a a cada columna de la matriz y luego recorrerla para setearla en 'j', se utilizo la funcion calloc() para alocar cada columna e ir seteandola en cero. Si bien no estamos seteando a cada elemento de la matriz en 'j', no hay problema en setearlos en cero ya que luego se va a llenar la matriz con otros valores mediante la funcion fill().<br> 
-![imagen](https://user-images.githubusercontent.com/88598932/233863377-6d519144-c725-4cae-a9bf-9ae1a5ad9a55.png)
+![imagen](https://user-images.githubusercontent.com/88598932/233866688-28706342-4e09-4645-95cd-0c7a8c5ff475.png)
 
 Tabla de tiempos:
 
