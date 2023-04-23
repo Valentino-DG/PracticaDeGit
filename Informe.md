@@ -6,7 +6,7 @@
 ## Optimizacion: 
 Lo primero que se va a hacer es tomar el programa tal cual y se lo va a ejecutar un total de 5 veces para sacar un promedio del tiempo de ejecucion, de forma tal de tener un punto de partida y ver como el promedio se va reducioendo a medida que voy agregando optimizaciones:<br>
 
-Programa original:
+### Programa original:
 
 |            | Real    | User    | Sys     |
 |------------|---------|---------|---------|
