@@ -3,7 +3,7 @@
 ## Alumno: Marco Valentino Di Giannantonio.
 ## LinkRepo: 
 
-## Optimizacion: 
+## 1 - Optimizacion: 
 Lo primero que se va a hacer es tomar el programa tal cual y se lo va a ejecutar un total de 5 veces para sacar un promedio del tiempo de ejecucion, de forma tal de tener un punto de partida y ver como el promedio se va reducioendo a medida que voy agregando optimizaciones:<br>
 
 ### Programa original:
@@ -21,7 +21,7 @@ Lo primero que se va a hacer es tomar el programa tal cual y se lo va a ejecutar
 Se ve como el promedio de tiempo de ejecucion es 0,4676 [seg]. Este es mi punto de partida.<br>
 
 ### Optimizacion 1:
-La primer optimizacion se llevó a cabo a la funcion "alloc_matrix". Lo que se hizo basicamente fue que en vez de alocar memoria a a cada columna de la matriz y luego recorrerla para setearla en 'j', se utilizo la funcion calloc() para alocar cada columna e ir seteandola en cero. Si bien no estamos seteando a cada elemento de la matriz en 'j', no hay problema en setearlos en cero ya que luego se va a llenar la matriz con otros valores mediante la funcion fill().<br><br> 
+La primer optimizacion se llevó a cabo a la funcion "alloc_matrix". Lo que se hizo basicamente fue que en vez de alocar memoria a a cada columna de la matriz y luego recorrerla para setearla en 'j', se utilizo la funcion calloc() para alocar cada columna e ir seteandola en cero. Si bien no estamos seteando a cada elemento de la matriz en 'j', no hay problema en setearlos en cero ya que luego se va a llenar la matriz con otros valores mediante la funcion "fill".<br><br> 
 El codigo de la izquierda es el optimizado y el de la derecha es el original
 ![imagen](https://user-images.githubusercontent.com/88598932/234174699-8569313c-b94e-4fe3-a273-b13010a4760b.png)
 
@@ -88,7 +88,8 @@ Tabla de tiempos:
 
 En este caso la mejora es pequeña en terminos de tiempo pero es grande en si la vemos porcentualmente. El tiempo de ejecucion ha pasado de 0,054 [seg] correspondiente al programa original con la optimizacion 1,2 y3 agregadas a 0,0458 [seg].
 
-## Uso de Valgrind:
+## 2 - Uso de Valgrind:
+Lo que se va a hacer es tomar el programa original (sin ninguna optimizacion) y ejecutarlo con valgrind.
 El ajecutar el programa con el uso del valgrind, el siguiente error se pronuncia una gran cantidad repetida de veces:
 
 ![imagen](https://user-images.githubusercontent.com/88598932/234410279-5c1416a8-58a6-4d82-ba30-9fb73ea406c6.png)
@@ -103,9 +104,33 @@ Esto me está indicando que he alocado memoria y no la estoy desalocando. Esto e
 ![imagen](https://user-images.githubusercontent.com/88598932/233873901-92fd9c71-4e76-4aa9-abc4-61ed2caea239.png)
 
 Una vez hechas estas correcciones paso a ejecutar el programa con valgrind de nuevo:
-![imagen](https://user-images.githubusercontent.com/88598932/233874185-175693cb-e2cf-491a-89b9-809b7bb9443e.png)
+![imagen](https://user-images.githubusercontent.com/88598932/234412494-51235cb2-63bd-4f19-a1a7-59a569daf977.png)
 
 Se puede observar que los errores han sido corregidos.
+
+Una vez hechas estas correcciones de manejo de memoria vamos a tomar el tiempo de ejecucion del programa. Como no se hizo ninguna optimizacion de tiempo sino que se hizo una optimizacion en el manejo de memoria se espera que el tiempo de ejecucion sea practicamente el mismo que el del programa original:
+
+Tabla de tiempos:
+
+|            | Real   | User   | Sys    |
+|------------|--------|--------|--------|
+| Ejecución 1| 0,433  | 0,16   | 0,188  |
+| Ejecución 2| 0,497  | 0,124  | 0,231  |
+| Ejecución 3| 0,453  | 0,147  | 0,2    |
+| Ejecución 4| 0,464  | 0,106  | 0,19   |
+| Ejecución 5| 0,462  | 0,156  | 0,191  |
+| Promedio   | 0,4618 | 0,1386 | 0,2    |
+
+Como se observa, el tiempo es casi el mismo que para el programa original. A mi parecer este programa deberia demorar un poco mas en ejecutarse que el programa original ya que se agrega codigo para liberar la memoria alocada. En mi opinion, para poder notar este cambio necesitaria tomar mas ejecuciones para sacar el promedio y tomar una matriz de mayor tamaño ya que la liberacion de la memoria se ejecuta muy rapido en una matriz de no tantos elementos.
+
+## 3 - Comparación de ámbas versiones:
+En cuanto a las diferencias entre ambas versiones podemos destacar dos. Una de las diferencias es que en la version optimizada sin el uso de valgrind el tiempo de ejecucion es mucho mas chico con respecto a la optimizacion con el uso de valgrind, estamos hablando de 0,054 [seg] para la optimizacion sin el uso de valgrind y 0,4618 [seg] para la optimizacion con el uso de valgrind. La otra diferencia es que para el caso de la optimizacion con el uso de valgrind se está manejando mucho mejor la memoria ya que valgrind me permitió darme cuenta de que habia memoria que no estaba liberando produciendome asi un memory leak pudiendome potencialemte quedarme sin memoria y además me permitió darme cuenta de que habia una variable sin inicializar que podria afectar el resultado del programa.
+Por ende en mi opinion no es que una version sea mejor que otra sino que en una estoy optimizando velocidad y en otra optimizando el manejo de memoria por lo que lo mejor seria hacer una nueva version fusionando ambas. 
+Dicha version se realizo y se encuentra en el repo con el nombre de "laboratorio3_OptTimeMasValgrind.c".
+
+
+
+
 
 
 
