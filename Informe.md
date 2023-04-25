@@ -21,8 +21,9 @@ Lo primero que se va a hacer es tomar el programa tal cual y se lo va a ejecutar
 Se ve como el promedio de tiempo de ejecucion es 0,4644. Este es mi punto de partida.<br>
 
 ### Optimizacion 1:
-La primer optimizacion se llevó a cabo a la funcion "alloc_matrix". Lo que se hizo basicamente fue que en vez de alocar memoria a a cada columna de la matriz y luego recorrerla para setearla en 'j', se utilizo la funcion calloc() para alocar cada columna e ir seteandola en cero. Si bien no estamos seteando a cada elemento de la matriz en 'j', no hay problema en setearlos en cero ya que luego se va a llenar la matriz con otros valores mediante la funcion fill().<br> 
-![imagen](https://user-images.githubusercontent.com/88598932/233866688-28706342-4e09-4645-95cd-0c7a8c5ff475.png)
+La primer optimizacion se llevó a cabo a la funcion "alloc_matrix". Lo que se hizo basicamente fue que en vez de alocar memoria a a cada columna de la matriz y luego recorrerla para setearla en 'j', se utilizo la funcion calloc() para alocar cada columna e ir seteandola en cero. Si bien no estamos seteando a cada elemento de la matriz en 'j', no hay problema en setearlos en cero ya que luego se va a llenar la matriz con otros valores mediante la funcion fill().<br><br> 
+El codigo de la izquierda es el optimizado y el de la derecha es el original
+![imagen](https://user-images.githubusercontent.com/88598932/234174699-8569313c-b94e-4fe3-a273-b13010a4760b.png)
 
 Tabla de tiempos:
 
@@ -38,7 +39,7 @@ Tabla de tiempos:
 
 Por lo que vemos, he obtenido una mejora en cuanto al original pero es muy pequeña, el tiempo de ejecucion ha pasado de 0,4644 [seg] a 0,423 [seg].
 ### Optimizacion 2:
-
+![imagen](https://user-images.githubusercontent.com/88598932/234175762-c3a4be7b-631e-4336-90fe-cb88eeeb22d3.png)
 Tabla de tiempos:
 
 |            | Real   | User   | Sys    |
@@ -70,6 +71,7 @@ En este caso el cambio es demasiado grande, he obtenido una gran mejora en cuant
 ### POSIBLE Optimizacion:
 
 Tabla de tiempos:
+
 |            | Real   | User   | Sys    |
 |------------|--------|--------|--------|
 | Ejecución 1| 0,042  | 0,034  | 0,008  |
