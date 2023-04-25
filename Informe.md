@@ -91,12 +91,12 @@ En este caso la mejora es pequeña en terminos de tiempo pero es grande en si la
 ## Uso de Valgrind:
 El ajecutar el programa con el uso del valgrind, el siguiente error se pronuncia una gran cantidad repetida de veces:
 
-![imagen](https://user-images.githubusercontent.com/88598932/233872626-b38d78ff-aaff-4ff3-ba00-70cf68f87ccc.png)
+![imagen](https://user-images.githubusercontent.com/88598932/234410279-5c1416a8-58a6-4d82-ba30-9fb73ea406c6.png)
 
-Esto me está indicando que en la funcion "compute" hay una variable sin inicializar. Rastreando un poco el codigo de la funcion compute la variable sin inicializar es la variable "accum" que se utiliza para asignarla a las posiciones de la matriz. El problema es que la variable accum se inicializa si se ingresa a la condicion if(), y luego se usa para asignarla a un elemento de la matriz, pero en caso de que no se entre a este if(), la variable no se va a inicializar y al elemento de la matriz se le va a asignar basura, y esto va a generar un problema cuando se haga un print() de la matriz. Para solucionar esto se inicializa la variable "accum" a cero antes de entrar a los bucles de la funcion compute.
+Esto me está indicando que en la funcion "compute" hay una variable sin inicializar de 8 Bytes. Rastreando un poco el codigo de la funcion compute la variable sin inicializar es la variable de tipo double "accum" que se utiliza para asignarla a las posiciones de la matriz. El problema es que la variable accum se inicializa si se ingresa a la condicion if(), y luego se usa para asignarla a un elemento de la matriz, pero en caso de que no se entre a este if(), la variable no se va a inicializar y al elemento de la matriz se le va a asignar basura, y esto va a generar un problema cuando se haga un print() de la matriz. Para solucionar esto se inicializa la variable "accum" a cero antes de entrar a los bucles de la funcion compute.
 
 Otro registro de errores que me sale son los siguientes:
-![imagen](https://user-images.githubusercontent.com/88598932/233872771-9da63519-a161-4b17-888a-4452fbe04fde.png)
+![imagen](https://user-images.githubusercontent.com/88598932/234409577-668305fb-0105-40b6-996c-376f5b09d1f4.png)
 
 Esto me está indicando que he alocado memoria y no la estoy desalocando. Esto es ya que para generar la matriz aloco memoria pero no le hago un free. Para solucionar esto he agregado una funcion que se encargue de hacer el free a la matriz (dicha funcion es llamada en el main al final del codigo):
 
