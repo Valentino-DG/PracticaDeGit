@@ -39,6 +39,7 @@ Tabla de tiempos:
 
 Por lo que vemos, he obtenido una mejora en cuanto al original pero es muy pequeña, el tiempo de ejecucion ha pasado de 0,4644 [seg] a 0,423 [seg].
 ### Optimizacion 2:
+El codigo de la izquierda es el optimizado y el de la derecha es el original
 ![imagen](https://user-images.githubusercontent.com/88598932/234175762-c3a4be7b-631e-4336-90fe-cb88eeeb22d3.png)
 Tabla de tiempos:
 
