@@ -3,8 +3,8 @@
 ## Alumno: Marco Valentino Di Giannantonio.
 ## LinkRepo: 
 
-## 1 - Optimizacion: 
-Lo primero que se va a hacer es tomar el programa tal cual y se lo va a ejecutar un total de 5 veces para sacar un promedio del tiempo de ejecucion, de forma tal de tener un punto de partida y ver como el promedio se va reducioendo a medida que voy agregando optimizaciones:<br>
+## 1 - Optimización: 
+Lo primero que se va a hacer es tomar el programa original y se lo va a ejecutar un total de 5 veces para sacar un promedio del tiempo de ejecucion, de forma tal de tener un punto de partida y ver como el promedio se va reducioendo a medida que voy agregando optimizaciones al programa:<br>
 
 ### Programa original:
 
@@ -18,14 +18,14 @@ Lo primero que se va a hacer es tomar el programa tal cual y se lo va a ejecutar
 | Promedio   | 0,4676 | 0,1704 | 0,1884 |
 
 
-Se ve como el promedio de tiempo de ejecucion es 0,4676 [seg]. Este es mi punto de partida.<br>
+Se ve como el promedio de tiempo de ejecución es 0,4676 [seg]. Este es mi punto de partida.<br>
 
-### Optimizacion 1:
-La primer optimizacion se llevó a cabo a la funcion "alloc_matrix". Lo que se hizo basicamente fue que en vez de alocar memoria a a cada columna de la matriz y luego recorrerla para setearla en 'j', se utilizo la funcion calloc() para alocar cada columna e ir seteandola en cero. Si bien no estamos seteando a cada elemento de la matriz en 'j', no hay problema en setearlos en cero ya que luego se va a llenar la matriz con otros valores mediante la funcion "fill".<br><br> 
-El codigo de la izquierda es el optimizado y el de la derecha es el original
+### Optimización 1:
+La primer optimizacion se llevó a cabo a la función "alloc_matrix". Lo que se hizo basicamente fue que en vez de alocar memoria para todas las columnas de cada fila de la matriz con malloc() y luego recorrerla a la matriz para setear en 'j'  cada uno de sus elementos con memset(), se utilizó directamente la función calloc() para alocar memoria para todas las columnas de cada fila y a su vez seteralas a cero. Si bien no estamos seteando a cada elemento de la matriz en 'j', no hay problema en setearlos en cero ya que luego se va a llenar la matriz con otros valores mediante la función "fill".<br><br>
+El codigo de la izquierda es el optimizado y el de la derecha es el original.
 ![imagen](https://user-images.githubusercontent.com/88598932/234174699-8569313c-b94e-4fe3-a273-b13010a4760b.png)
 
-Tabla de tiempos:
+Tabla de tiempos (la unidad es segundos):
 
 |            | Real   | User   | Sys    |
 |------------|--------|--------|--------|
@@ -37,12 +37,15 @@ Tabla de tiempos:
 | Promedio   | 0,4214 | 0,1384 | 0,1812 |
 
 
-Por lo que vemos, he obtenido una mejora en cuanto al original pero es muy pequeña, el tiempo de ejecucion ha pasado de 0,4676 [seg] a 0,4214 [seg].
-### Optimizacion 2:
-La segunda optimizacion se llevó a cabo en la funcion "compute". Se icieron 2 cambios, el primero fue eliminar el arreglo temporal "tmp_sum" que se encarga de almacenar los 9 valores calculados de la convolucion del kernel y 9 valores de la matriz. El segundo cambio fue que en vez de almacenar estos nueve valores y luego hacer la suma de los mismos guardando el resultado de las sumas en la variable "accum", ir a medida que se recorre cada elmento del kernel y se va haciendo la convulucion con el elemento correspondiente de la matriz de datos ir directamente sumando en la variable "accum" con este resutlado. Con estos dos cambios estoy evitando el tener una variable temporal, me evito el tener que almacenar los datos de la convolucion en esta variable y luego tener que acceder a cada uno de sus elementos para hacer la suma elimando asi los 2 bucles for destinados a esto. Con esto obtengo mejora en manejo de memoria, velocidad y además queda un codigo mas comprensible.
-El codigo de la izquierda es el optimizado y el de la derecha es el original
+Por lo que se ve, he obtenido una mejora en cuanto al programa origina,l pero es muy pequeña, el tiempo de ejecución en promedio ha pasado de 0,4676 [seg] a 0,4214 [seg].
+
+### Optimización 2:
+La segunda optimización se llevó a cabo en la función "compute". Se hicieron 2 cambios. El primer cambio fue eliminar el arreglo temporal "tmp_sum" que se encarga de almacenar los 9 valores calculados de la convolución del kernel y 9 valores de la matriz de datos, eliminando asi el tener que acceder a dicha variable tanto para almacenar los valores de la convolucion como para leer tales valores para hacer la suma que se almacena en la variable "accum". El segundo cambio fue que en vez de almacenar estos nueve valores y luego hacer la suma de los mismos guardando el resultado de las sumas en la variable "accum", lo que se hace es que a medida que se va recorriendo cada elmento del kernel y se va haciendo la convulución con el elemento correspondiente de la matriz de datos ir directamente sumando en la variable "accum" este resutlado.<br>
+Con estos dos cambios estoy evitando el tener una variable temporal que se va a tener que acceder muchas veces, para almacenar los valores de la convolución y posteriormente la lectura de los mismos para almacenar su suma en la variable "accum", eliminando asi los dos bucles for destinados a esto último.<br><br>
+El código de la izquierda es el optimizado y el de la derecha es el original
 ![imagen](https://user-images.githubusercontent.com/88598932/234175762-c3a4be7b-631e-4336-90fe-cb88eeeb22d3.png)
-Tabla de tiempos:
+
+Tabla de tiempos (la unidad es segundos):
 
 |            | Real   | User   | Sys    |
 |------------|--------|--------|--------|
@@ -53,12 +56,12 @@ Tabla de tiempos:
 | Ejecución 5| 0,401  | 0,139  | 0,169  |
 | Promedio   | 0,3964 | 0,1448 | 0,1618 |
 
-Por lo que vemos, he obtenido una mejora pequeña en cuanto al codigo con la primera optimizacion, el tiempo de ejecucion ha pasado de 0,4214 [seg] a 0,3964 [seg].
+Por lo que se ve, he obtenido una mejora pequeña en cuanto al codigo con la primera optimización, el tiempo de ejecución ha pasado de 0,4214 [seg] a 0,3964 [seg].
 
-### Optimizacion 3:
-La tercera optimizacion consistio en reemplazar los printf() por fprint() en las funciones "compute" y "print". Lo que realicé fue en vez de sacar la salida del programa por la consola, escribirla en un archivo llamado "output.txt". Realicé este cambio ya que printf() escribe en consola, siendo esto una operacion relativamente costosa en términos de tiempo pero por otro lado, fprintf() escribe directamente en un archivo y no necesita esperar a que cada carácter se muestre en la pantalla, lo que puede ralentizar el proceso de escritura en el caso de la consola cuando estamos imprimiendo muchos datos como es el caso.
+### Optimización 3:
+La tercera optimizacion consistió en reemplazar los printf() por fprint() en las funciones "compute" y "print". Lo que realicé fue en vez de sacar la salida del programa por la consola, escribirla en un archivo llamado "outputSoloTime.txt". Realicé este cambio ya que printf() escribe en consola, siendo esto una operacion relativamente costosa en términos de tiempo, pero por otro lado, fprintf() escribe directamente en un archivo y no necesita esperar a que cada carácter se muestre en la pantalla, lo que puede ralentizar el proceso de escritura en el caso de la consola cuando estamos imprimiendo muchos datos como es el caso.
 
-Tabla de tiempos:
+Tabla de tiempos (la unidad es segundos):
 
 |            | Real   | User   | Sys    |
 |------------|--------|--------|--------|
@@ -70,12 +73,12 @@ Tabla de tiempos:
 | Promedio   | 0,054  | 0,044  | 0,0096 |
 
 
-En este caso la mejora de velocidad es demasiado grande, he obtenido una gran mejora en cuanto al programa original con la optimizacion 1 y 2 agregada. El tiempo de ejecucion ha pasado de 0,3964 [seg] a 0,054 [seg].
+En este caso la mejora de velocidad es abismal, he obtenido una gran mejora en cuanto al programa original con la optimizacion 1 y 2 agregada. El tiempo de ejecución ha pasado de 0,3964 [seg] a 0,054 [seg].
 
-### POSIBLE Optimizacion:
-Pense en una optimzacion que a mi punto de vista es necesaria, pero al modificar el output del programa original **NO** la dejé implementada pero muestro los resultados con la mejora de tiempos. La optimizacion consiste en eliminar la impresion que se hace en la funcion "compute" ya que no la veo necesaria a diferencia de la impresion de la matriz en la funcion print() que si es imporante.
+### POSIBLE Optimización:
+Pensé en una optimzación que a mi punto de vista es necesaria, pero como modifica el output del programa original **NO** la dejé implementada pero muestro los resultados con la mejora de tiempos. La optimización consiste en eliminar la impresión que se hace en la funcion "compute" ya que la veo innecesaria a diferencia de la impresión de la matriz en la funcion "print" que si es imporante.
 
-Tabla de tiempos:
+Tabla de tiempos (la unidad es segundos):
 
 |            | Real   | User   | Sys    |
 |------------|--------|--------|--------|
@@ -110,7 +113,7 @@ Se puede observar que los errores han sido corregidos.
 
 Una vez hechas estas correcciones de manejo de memoria vamos a tomar el tiempo de ejecucion del programa. Como no se hizo ninguna optimizacion de tiempo sino que se hizo una optimizacion en el manejo de memoria se espera que el tiempo de ejecucion sea practicamente el mismo que el del programa original:
 
-Tabla de tiempos:
+Tabla de tiempos (la unidad es segundos):
 
 |            | Real   | User   | Sys    |
 |------------|--------|--------|--------|
