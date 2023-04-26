@@ -104,7 +104,7 @@ Esto me está indicando se está creando una variable sin inicializar en la func
 Otro registro de errores que me sale son los siguientes:
 ![imagen](https://user-images.githubusercontent.com/88598932/234409577-668305fb-0105-40b6-996c-376f5b09d1f4.png)
 
-Esto me está indicando que he alocado memoria y no la estoy desalocando. De forma mas precisa, se me está informando que estoy perdiendo 80800 Bytes, 800 Bytes son los que aloqué para los 100 punteros double que apuntan a cada una de las filas de la matriz, y los 80000 Bytes restantes son los 10000 elemetos double de la matriz. Esto es ya que para generar la matriz aloco memoria tanto para las filas como para las columnas, pero no estoy haciendo la liberación de la misma. Para solucionar esto he agregado una función que se encargue de hacer el free a la matriz (dicha función es llamada en el main al final del código):
+Esto me está indicando que he alocado memoria y no la estoy desalocando. De forma mas precisa, se me está informando que estoy perdiendo (no liberando) 80800 Bytes, 800 Bytes son los que aloqué para los 100 punteros double que apuntan a cada una de las filas de la matriz, y los 80000 Bytes restantes son los 10000 elemetos double de la matriz. Es decir que en definitiva la memoria alocada para crear la matriz no la estoy liberando y esto me puede llevar a un problema de memory leak. Para solucionar esto he agregado una función que se encargue de hacer el free a la matriz (dicha función es llamada en el main al final del código):
 
 ![imagen](https://user-images.githubusercontent.com/88598932/233873901-92fd9c71-4e76-4aa9-abc4-61ed2caea239.png)
 
