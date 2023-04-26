@@ -23,7 +23,7 @@ Tabla de tiempos (la unidad es segundos):
 Se ve como el promedio de tiempo de ejecución es 0,4676 [seg]. Este es mi punto de partida.<br>
 
 ### Optimización 1:
-La primer optimizacion se llevó a cabo a la función "alloc_matrix". Lo que se hizo basicamente fue que en vez de alocar memoria para todas las columnas de cada fila de la matriz con malloc() y luego recorrerla a la matriz para setear en 'j'  cada uno de sus elementos con memset(), se utilizó directamente la función calloc() para alocar memoria para todas las columnas de cada fila y a su vez seteralas a cero. Si bien no estamos seteando a cada elemento de la matriz en 'j', no hay problema en setearlos en cero ya que luego se va a llenar la matriz con otros valores mediante la función "fill".<br><br>
+La primer optimización se llevó a cabo a la función "alloc_matrix". Lo que se hizo basicamente fue que en vez de alocar memoria para cada una de las filas de la matriz con malloc() y luego recorrerla a la matriz para setear en 'j'  cada uno de sus elementos con memset(), se utilizó directamente la función calloc() para alocar memoria para cada una de las filas de la matriz y a su vez seteralas a cero. Si bien no estamos seteando a cada elemento de la matriz en 'j', no hay problema en setearlos en cero ya que luego se va a llenar la matriz con otros valores mediante la función "fill".<br><br>
 El código de la izquierda es el optimizado y el de la derecha es el original.
 ![imagen](https://user-images.githubusercontent.com/88598932/234174699-8569313c-b94e-4fe3-a273-b13010a4760b.png)
 
@@ -106,7 +106,7 @@ Otro registro de errores que me sale son los siguientes:
 
 Esto me está indicando que he alocado memoria y no la estoy desalocando. De forma mas precisa, se me está informando que estoy perdiendo (no liberando) 80800 Bytes, 800 Bytes son los que aloqué para los 100 punteros double que apuntan a cada una de las filas de la matriz, y los 80000 Bytes restantes son los 10000 elemetos double de la matriz. Es decir que en definitiva la memoria alocada para crear la matriz no la estoy liberando y esto me puede llevar a un problema de memory leak. Para solucionar esto he agregado una función que se encargue de hacer el free a la matriz (dicha función es llamada en el main al final del código):
 
-![imagen](https://user-images.githubusercontent.com/88598932/233873901-92fd9c71-4e76-4aa9-abc4-61ed2caea239.png)
+![imagen](https://user-images.githubusercontent.com/88598932/234683075-f2d1b909-f81e-46c3-8ed8-2ac88d289fb7.png)
 
 Una vez hechas estas correcciones paso a ejecutar el programa con valgrind de nuevo:
 
