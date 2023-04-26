@@ -1,12 +1,14 @@
 ## Trabajo Práctico 3-SO2
 
 ## Alumno: Marco Valentino Di Giannantonio.
-## LinkRepo: 
+## LinkRepo: https://github.com/ICOMP-UNC/2023---soii---laboratorio-iii-Valentino-DG
 
-## 1 - Optimización: 
-Lo primero que se va a hacer es tomar el programa original y se lo va a ejecutar un total de 5 veces para sacar un promedio del tiempo de ejecucion, de forma tal de tener un punto de partida y ver como el promedio se va reducioendo a medida que voy agregando optimizaciones al programa:<br>
+## 1 - Optimización utilizando comando Time: 
+Lo primero que se va a hacer es tomar el programa original y se lo va a ejecutar un total de 5 veces con el comando "time" para sacar un promedio del tiempo de ejecución, de forma tal de tener un punto de partida y ver como el promedio se va reduciendo a medida que voy agregando optimizaciones al programa:<br>
 
 ### Programa original:
+
+Tabla de tiempos (la unidad es segundos):
 
 |            | Real   | User   | Sys    |
 |------------|--------|--------|--------|
@@ -76,7 +78,7 @@ Tabla de tiempos (la unidad es segundos):
 En este caso la mejora de velocidad es abismal, he obtenido una gran mejora en cuanto al programa original con la optimizacion 1 y 2 agregada. El tiempo de ejecución ha pasado de 0,3964 [seg] a 0,054 [seg].
 
 ### POSIBLE Optimización:
-Pensé en una optimzación que a mi punto de vista es necesaria, pero como modifica el output del programa original **NO** la dejé implementada pero muestro los resultados con la mejora de tiempos. La optimización consiste en eliminar la impresión que se hace en la funcion "compute" ya que la veo innecesaria a diferencia de la impresión de la matriz en la funcion "print" que si es imporante.
+Pensé en una optimzación que a mi punto de vista es necesaria, pero como modifica el output con respecto al programa original **NO** la dejé implementada pero muestro los resultados con la mejora de tiempos. La optimización consiste en eliminar la impresión que se hace en la funcion "compute" ya que la veo como una sobrecarga innecesaria a diferencia de la impresión de la matriz en la funcion "print" que si es imporante. Modifica el output con respecto al programa original ya que no se va a contar con tales impresiones.
 
 Tabla de tiempos (la unidad es segundos):
 
@@ -89,29 +91,30 @@ Tabla de tiempos (la unidad es segundos):
 | Ejecución 5| 0,045  | 0,041  | 0,004  |
 | Promedio   | 0,0458 | 0,0396 | 0,0062 |
 
-En este caso la mejora es pequeña en terminos de tiempo pero es grande en si la vemos porcentualmente. El tiempo de ejecucion ha pasado de 0,054 [seg] correspondiente al programa original con la optimizacion 1,2 y3 agregadas a 0,0458 [seg].
+En este caso el tiempo de ejecución ha pasado de 0,054 [seg] correspondiente al programa original con la optimizacion 1,2 y 3 agregadas a 0,0458 [seg].
 
-## 2 - Uso de Valgrind:
-Lo que se va a hacer es tomar el programa original (sin ninguna optimizacion) y ejecutarlo con valgrind.
-El ajecutar el programa con el uso del valgrind, el siguiente error se pronuncia una gran cantidad repetida de veces:
+## 2 - Optimización utilizando Valgrind: 
+Lo que se va a hacer es tomar el programa original (sin ninguna optimización) y ejecutarlo con el analizador dinámico valgrind.
+El ajecutar el programa con el uso de valgrind, errores del siguiente estilo se pronuncian una gran cantidad repetida de veces:
 
 ![imagen](https://user-images.githubusercontent.com/88598932/234410279-5c1416a8-58a6-4d82-ba30-9fb73ea406c6.png)
 
-Esto me está indicando que en la funcion "compute" hay una variable sin inicializar de 8 Bytes. Rastreando un poco el codigo de la funcion compute la variable sin inicializar es la variable de tipo double "accum" que se utiliza para asignarla a las posiciones de la matriz. El problema es que la variable accum se inicializa si se ingresa a la condicion if(), y luego se usa para asignarla a un elemento de la matriz, pero en caso de que no se entre a este if(), la variable no se va a inicializar y al elemento de la matriz se le va a asignar basura, y esto va a generar un problema cuando se haga un print() de la matriz. Para solucionar esto se inicializa la variable "accum" a cero antes de entrar a los bucles de la funcion compute.
+Esto me está indicando se está haciendo uso de una variable sin inicializar por parte de la función "compute". Rastreando un poco el código de la función compute la variable sin inicializar es la variable de tipo "accum" que se utiliza almacenar el resultado de la convolución y asignarla a las posiciones de la matriz. El problema es que la variable accum se inicializa si es que se ingresa a la condicion if(), a este if solo se ingresa en el caso en que los elementos de la matriz no pertenezcan al borde de la misma. El problema radica en que inicialmente al empezar a recorrer la matriz, los primeros elementos van a pertencer al borde de la misma ya que se va barriendo la matriz desde la primera fila (la primera fila es el borde superior), por ende no se va a ingresar a este if(), entonces la variable "accum" no se va a inicializar y al elemento de la matriz se le va a asignar basura. Para solucionar esto se inicializa la variable "accum" a cero antes de entrar a los bucles de la funcion compute.
 
 Otro registro de errores que me sale son los siguientes:
 ![imagen](https://user-images.githubusercontent.com/88598932/234409577-668305fb-0105-40b6-996c-376f5b09d1f4.png)
 
-Esto me está indicando que he alocado memoria y no la estoy desalocando. Esto es ya que para generar la matriz aloco memoria pero no le hago un free. Para solucionar esto he agregado una funcion que se encargue de hacer el free a la matriz (dicha funcion es llamada en el main al final del codigo):
+Esto me está indicando que he alocado memoria y no la estoy desalocando. Esto es ya que para generar la matriz aloco memoria tanto para las filas como para las columnas, pero no estoy haciendo la liberación de la misma. Para solucionar esto he agregado una función que se encargue de hacer el free a la matriz (dicha función es llamada en el main al final del código):
 
 ![imagen](https://user-images.githubusercontent.com/88598932/233873901-92fd9c71-4e76-4aa9-abc4-61ed2caea239.png)
 
 Una vez hechas estas correcciones paso a ejecutar el programa con valgrind de nuevo:
+
 ![imagen](https://user-images.githubusercontent.com/88598932/234412494-51235cb2-63bd-4f19-a1a7-59a569daf977.png)
 
 Se puede observar que los errores han sido corregidos.
 
-Una vez hechas estas correcciones de manejo de memoria vamos a tomar el tiempo de ejecucion del programa. Como no se hizo ninguna optimizacion de tiempo sino que se hizo una optimizacion en el manejo de memoria se espera que el tiempo de ejecucion sea practicamente el mismo que el del programa original:
+Una vez hechas estas correcciones de manejo de memoria vamos a tomar el tiempo de ejecución del programa. Como no se hizo ninguna optimización de tiempo sino que se hizo una optimizacion en el manejo de memoria se espera que el tiempo de ejecución sea prácticamente el mismo que el del programa original:
 
 Tabla de tiempos (la unidad es segundos):
 
@@ -124,16 +127,20 @@ Tabla de tiempos (la unidad es segundos):
 | Ejecución 5| 0,462  | 0,156  | 0,191  |
 | Promedio   | 0,4618 | 0,1386 | 0,2    |
 
-Como se observa, el tiempo es casi el mismo que para el programa original. A mi parecer este programa deberia demorar un poco mas en ejecutarse que el programa original ya que se agrega codigo para liberar la memoria alocada. En mi opinion, para poder notar este cambio necesitaria tomar mas ejecuciones para sacar el promedio y tomar una matriz de mayor tamaño ya que la liberacion de la memoria se ejecuta muy rapido en una matriz de no tantos elementos.
+Como se observa, el tiempo es casi el mismo que para el programa original. A mi parecer este programa deberia demorar un poco más en ejecutarse que el programa original ya que se agrega código para liberar la memoria alocada. En mi opinión, para poder notar este cambio necesitaria tomar mas ejecuciones para sacar el promedio y tomar una matriz de mayor tamaño ya que la liberación de la memoria se ejecuta muy rapido en una matriz de no tantos elementos.
 
 ## 3 - Comparación de ámbas versiones:
-En cuanto a las diferencias entre ambas versiones podemos destacar dos. Una de las diferencias es que en la version optimizada sin el uso de valgrind el tiempo de ejecucion es mucho mas chico con respecto a la optimizacion con el uso de valgrind, estamos hablando de 0,054 [seg] para la optimizacion sin el uso de valgrind y 0,4618 [seg] para la optimizacion con el uso de valgrind. La otra diferencia es que para el caso de la optimizacion con el uso de valgrind se está manejando mucho mejor la memoria ya que valgrind me permitió darme cuenta de que habia memoria que no estaba liberando produciendome asi un memory leak pudiendome potencialemte quedarme sin memoria y además me permitió darme cuenta de que habia una variable sin inicializar que podria afectar el resultado del programa.
-Por ende en mi opinion no es que una version sea mejor que otra sino que en una optimicé velocidad mas que manejo de memoria y en otra optimicé mucho el manejo de memoria por lo que lo mejor seria hacer una nueva versión fusionando ambas. 
-Dicha version se realizo y se encuentra en el repo con el nombre de "laboratorio3_OptTimeMasValgrind.c".
+En cuanto a las diferencias entre ambas versiones podemos destacar dos. Una de las diferencias es que en la version optimizada sin el uso de valgrind, el tiempo de ejecución es mucho mas chico con respecto a la optimización con el uso de valgrind, estamos hablando de 0,054 [seg] para la optimización sin el uso de valgrind y 0,4618 [seg] para la optimización con el uso de valgrind. La otra diferencia es que para el caso de la optimización con el uso de valgrind se está manejando mucho mejor la memoria ya que valgrind me permitió darme cuenta de que habia memoria que no estaba liberando produciendome asi un memory leak pudiéndome potencialemte quedarme sin memoria y además me permitió darme cuenta de que habia una variable sin inicializar que podria afectar el resultado del programa.<br>
+Por ende en mi opinión no es que una versión sea mejor que la otra sino que en una optimicé velocidad por sobre manejo de memoria y en otra optimicé mucho el manejo de memoria, por lo que lo mejor seria hacer una nueva versión fusionando ámbas. 
+Dicha version se realizó y se encuentra en el repo con el nombre de "laboratorio3_OptTimeMasValgrind.c".
 
 ## 4 - Unit Test para validar software:
-Se llevó a cabo un testeo para verificar que la salida de los nuevos programas generados debido al agregado de las optimizaciones no han cambiado la salida del programa original.
-Para ellos se tubo que setear la semilla que genera los valores pseudo aleatorios en los distintos programas ya que si no vamos a tener distintas salidas ya que a las matrices en cada uno de los programas .
+Se llevó a cabo un testeo para verificar que la salida de los nuevos programas generados debido al agregado de las optimizaciones no han cambiado con respecto a la salida del programa original.<br>
+
+Para ello se tuvo que setear la semilla que genera los valores pseudo aleatorios en los distintos programas en un valor constante (se eligió el entero '10' de forma arbitraria) ya que si no vamos a tener distintas salidas ya que a las matrices en cada uno de los programas se llenarán con valores distintos.<br>
+
+La forma de comprobar que las salidas de los programas son iguales fue mediante el comando **sha1sum <archivo.txt>** que se utiliza para calcular el valor de hash SHA-1 (valor hash de 160 bits) de un archivo y mostrar el resultado en la pantalla. Por ende se va a calcular el valor de hash SHA-1 de todas las salidas de los programas (todas las optimizaciones y el original) y en caso de que los hash de las salidas de los programas que sufrieron alguna optimizacion coincidan con el hash de la salida del programa original es porque no hubo cambios en los outputs con respecto al programa original, que es lo que estamos buscando.
 
 ![imagen](https://user-images.githubusercontent.com/88598932/234428742-7f28d2e2-91ff-47ed-a0f9-72d0f94bd9ee.png)
 
+Se observa que no hubo cambios en la salidas de los programas optimizados con respecto a la salida del programa original ya que los hash coinciden.
