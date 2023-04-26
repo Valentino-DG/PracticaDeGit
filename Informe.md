@@ -125,15 +125,12 @@ Como se observa, el tiempo es casi el mismo que para el programa original. A mi 
 
 ## 3 - Comparación de ámbas versiones:
 En cuanto a las diferencias entre ambas versiones podemos destacar dos. Una de las diferencias es que en la version optimizada sin el uso de valgrind el tiempo de ejecucion es mucho mas chico con respecto a la optimizacion con el uso de valgrind, estamos hablando de 0,054 [seg] para la optimizacion sin el uso de valgrind y 0,4618 [seg] para la optimizacion con el uso de valgrind. La otra diferencia es que para el caso de la optimizacion con el uso de valgrind se está manejando mucho mejor la memoria ya que valgrind me permitió darme cuenta de que habia memoria que no estaba liberando produciendome asi un memory leak pudiendome potencialemte quedarme sin memoria y además me permitió darme cuenta de que habia una variable sin inicializar que podria afectar el resultado del programa.
-Por ende en mi opinion no es que una version sea mejor que otra sino que en una estoy optimizando velocidad y en otra optimizando el manejo de memoria por lo que lo mejor seria hacer una nueva version fusionando ambas. 
+Por ende en mi opinion no es que una version sea mejor que otra sino que en una optimicé velocidad mas que manejo de memoria y en otra optimicé mucho el manejo de memoria por lo que lo mejor seria hacer una nueva versión fusionando ambas. 
 Dicha version se realizo y se encuentra en el repo con el nombre de "laboratorio3_OptTimeMasValgrind.c".
 
+## 4 - Unit Test para validar software:
+Se llevó a cabo un testeo para verificar que la salida de los nuevos programas generados debido al agregado de las optimizaciones no han cambiado la salida del programa original.
+Para ellos se tubo que setear la semilla que genera los valores pseudo aleatorios en los distintos programas ya que si no vamos a tener distintas salidas ya que a las matrices en cada uno de los programas .
 
-
-
-
-
-
-
-
+![imagen](https://user-images.githubusercontent.com/88598932/234428742-7f28d2e2-91ff-47ed-a0f9-72d0f94bd9ee.png)
 
