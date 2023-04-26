@@ -144,3 +144,5 @@ La forma de comprobar que las salidas de los programas son iguales fue mediante 
 ![imagen](https://user-images.githubusercontent.com/88598932/234428742-7f28d2e2-91ff-47ed-a0f9-72d0f94bd9ee.png)
 
 Se observa que no hubo cambios en la salidas de los programas optimizados con respecto a la salida del programa original ya que los hash coinciden.
+
+**Se provee un script (en la carpeta "unit_test") que se encarga de compilar los códigos fuente de testeo, ejecutar los programas resultantes y de generar los hash de las salidas de los programas, asi se puede corroborar que no hay variación en los outputs. Todo esto de forma automática sin la necesidad de tener que hacerlo a mano.**
