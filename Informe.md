@@ -90,7 +90,7 @@ Endpoints y ejemplos de solicitudes de los mismos:
          --header 'Authorization: <token>'
 
 <br>
-<u>**Seguridad y Autenticación</u>**
+**<u>Seguridad y Autenticación</u>**
 
 Para acceder a las funcionalidades del servicio de usuarios como lo son obtener la lista y cantidad de usuarios registrados, es necesario estar autenticado. La autenticación se realiza mediante tokens JWT, que se generan al momento del login exitoso.
 
@@ -250,11 +250,12 @@ Por último Editamos el archivo Hosts:
 
     sudo nano /etc/hosts
 
-agregamos:
+Agregamos:
     
     127.0.0.1 www.dashboard.com dashboard.com
     127.0.0.1 www.sensors.com sensors.com
-
+    
+<br>
 ### Antes de pasar a la configuracion de SystemD o antes de ejecutar el código:
 Es necesario editar el archivo sudoers ya que el código del servicio de usuario utiliza dos comandos que necesitan ejecutarse con SUDO, entonces desabilitamos que "SUDO" pida contraseña para esos dos comandos.
 
