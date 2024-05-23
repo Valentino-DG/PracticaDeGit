@@ -256,6 +256,7 @@ Agregamos:
     127.0.0.1 www.sensors.com sensors.com
     
 <br>
+
 ### Antes de pasar a la configuracion de SystemD o antes de ejecutar el código:
 Es necesario editar el archivo sudoers ya que el código del servicio de usuario utiliza dos comandos que necesitan ejecutarse con SUDO, entonces desabilitamos que "SUDO" pida contraseña para esos dos comandos.
 
