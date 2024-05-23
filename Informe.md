@@ -90,6 +90,7 @@ Endpoints y ejemplos de solicitudes de los mismos:
          --header 'Authorization: <token>'
 
 <br>
+
 **<u>Seguridad y Autenticación</u>**
 
 Para acceder a las funcionalidades del servicio de usuarios como lo son obtener la lista y cantidad de usuarios registrados, es necesario estar autenticado. La autenticación se realiza mediante tokens JWT, que se generan al momento del login exitoso.
